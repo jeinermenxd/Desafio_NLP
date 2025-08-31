@@ -1,64 +1,58 @@
-# Desafío NLP - Clasificación de Emociones en Tweets
+# Desafío NLP: Clasificación de Emociones en Tweets (EmoEvent)
 
-Este proyecto aborda el desafío de clasificación de emociones en publicaciones de Twitter/X, utilizando distintos enfoques de aprendizaje automático y modelos de lenguaje.
+Este proyecto aborda la clasificación de emociones en tweets en español usando el dataset [EmoEvent](https://github.com/fmplaza/EmoEvent). Se comparan tres enfoques de modelado:
+
+- **GPT-4o (OpenAI)**
+- **BERT Multilingüe**
+- **BiLSTM (Keras/TensorFlow)**
 
 ## Estructura del Proyecto
 
-- `notebook/Desafío_NLP_Jeiner_Mendieta.ipynb`: Notebook principal con todo el flujo de trabajo, desde la carga de datos hasta la evaluación de modelos.
+- `notebook/NLP_Jeiner_Mendieta.ipynb`: Notebook principal con todo el flujo de trabajo.
+- `emoevent_data/es/`: Carpeta con los datos descargados (`train.tsv`, `dev.tsv`, `test.tsv`).
+- Resultados y métricas exportados a CSV.
 
-## Descripción del Flujo
+## Flujo de Trabajo
 
-1. **Instalación de Dependencias**
-   - Se instalan versiones específicas de librerías para asegurar compatibilidad en Google Colab y evitar conflictos.
+1. **Descarga y exploración de datos**  
+   Se descargan los splits de EmoEvent y se explora la distribución de emociones y eventos.
 
-2. **Carga y Preprocesamiento de Datos**
-   - Se clona el repositorio [EmoEvent](https://github.com/fmplaza/EmoEvent) y se cargan los splits de datos (`train`, `dev`, `test`) tanto en español como en inglés.
-   - Se detectan automáticamente los separadores y columnas relevantes.
-   - Se normalizan las etiquetas para asegurar consistencia.
+2. **Modelo 1: GPT-4o (OpenAI)**
+   - Clasificación de emociones usando la API de OpenAI.
+   - Evaluación sobre una muestra de 50 tweets.
 
-3. **Modelos Implementados**
-   - **Modelo 1: SVM lineal con TF-IDF**
-     - Se entrena un pipeline de TF-IDF + LinearSVC para cada idioma.
-     - Se evalúa el desempeño por clase y por evento.
-   - **Modelo 2: XLM-RoBERTa (fine-tuning)**
-     - Se utiliza `transformers` para ajustar un modelo multilingüe XLM-RoBERTa.
-     - Se reportan métricas de accuracy y macro-F1, además de F1 por clase.
-   - **GPT-4o-mini (zero/few-shot)**
-     - Se evalúa el modelo GPT-4o-mini de OpenAI usando prompts y ejemplos (few-shot).
-     - Se compara el desempeño con los modelos entrenados.
+3. **Modelo 2: BERT Multilingüe**
+   - Entrenamiento y evaluación de un modelo BERT desde cero.
+   - Balanceo de clases, métricas y matrices de confusión.
 
-4. **Evaluación y Comparación**
-   - Se presentan métricas de accuracy y macro-F1 para cada modelo e idioma.
-   - Se discuten los resultados y posibles causas de diferencias de desempeño.
+4. **Modelo 3: BiLSTM**
+   - Tokenización y entrenamiento de un modelo BiLSTM.
+   - Evaluación y comparación con los otros modelos.
 
-## Resultados Resumidos
-
-| Modelo                | Accuracy | Macro-F1 |
-|-----------------------|----------|----------|
-| XLM-R en              | 0.698    | 0.376    |
-| SVM en                | 0.645    | 0.391    |
-| XLM-R es              | 0.358    | 0.182    |
-| SVM es                | 0.353    | 0.177    |
-| GPT-4o-mini en        | 0.357    | 0.272    |
-| GPT-4o-mini es        | 0.140    | 0.093    |
-
-- XLM-RoBERTa obtiene mejor accuracy en inglés, pero el macro-F1 es similar a SVM, indicando posibles problemas en clases minoritarias.
-- El desempeño en español es considerablemente menor, sugiriendo desbalance o preprocesamiento insuficiente.
-- GPT-4o-mini, al ser zero/few-shot y sin fine-tuning, tiene resultados modestos.
+5. **Comparación de modelos**
+   - Comparativa de predicciones en ejemplos reales.
 
 ## Requisitos
 
 - Python 3.8+
-- Google Colab recomendado (por dependencias y GPU)
-- API Key de OpenAI (para pruebas con GPT-4o-mini)
+- Paquetes: `pandas`, `scikit-learn`, `matplotlib`, `torch`, `transformers`, `tensorflow`, `tqdm`, `openai`
+- API Key de OpenAI (para GPT-4o)
+
+Instalación rápida de dependencias principales:
+```bash
+pip install pandas scikit-learn matplotlib torch transformers tensorflow tqdm openai
+```
 
 ## Ejecución
 
-1. Abre el notebook en Google Colab.
-2. Ejecuta las celdas en orden.
-3. Para usar GPT-4o-mini, coloca tu API Key de OpenAI donde se indica en el notebook.
+Abre el notebook y sigue las celdas en orden.  
+**Nota:** No subas tu API Key a ningún repositorio.
 
 ## Créditos
 
-- Notebook desarrollado por Jeiner Mendieta para el Desafío NLP.
-- Datos: [EmoEvent](https://github.com/fmplaza/EmoEvent)
+- Dataset: [EmoEvent](https://github.com/fmplaza/EmoEvent)
+- Autor: Jeiner Mendieta
+
+---
+
+¡Siéntete libre de modificar este README según tus
